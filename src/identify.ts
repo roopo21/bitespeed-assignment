@@ -38,9 +38,16 @@ export default async function identify(req: Request, res: Response, prisma: Pris
     }
 
     const primaryContacts = contacts.filter((contact: Contact) => contact.linkPrecedence === 'primary');
-    const truePrimary = primaryContacts.reduce((oldest: Contact, c: Contact) =>
+    if(primaryContacts.length > 0) {
+
+    }
+    const truePrimary = (primaryContacts.length > 0
+        ? primaryContacts
+        : contacts
+    ).reduce((oldest: Contact, c: Contact) =>
         new Date(c.createdAt) < new Date(oldest.createdAt) ? c : oldest
     );
+
 
     const otherPrimaries = primaryContacts.filter(c => c.id !== truePrimary.id);
 
